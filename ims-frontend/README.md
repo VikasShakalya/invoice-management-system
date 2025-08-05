@@ -216,15 +216,3 @@ If data doesn't load:
 
 3. **Configure production backend URL:**
    Update `src/api/axiosInstance.js` baseURL to your production backend URL.
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License.
