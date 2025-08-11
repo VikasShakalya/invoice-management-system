@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { isAuthenticated } from './api/auth';
@@ -70,76 +70,17 @@ function App() {
           <Route 
             path="/" 
             element={
-              isAuth ? (
-                <Layout>
-                  <Dashboard />
-                </Layout>
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            } 
-          />
-          <Route 
-            path="/dashboard" 
-            element={
-              isAuth ? (
-                <Layout>
-                  <Dashboard />
-                </Layout>
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            } 
-          />
-          <Route 
-            path="/invoices" 
-            element={
-              isAuth ? (
-                <Layout>
-                  <InvoiceList />
-                </Layout>
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            } 
-          />
-          <Route 
-            path="/invoices/new" 
-            element={
-              isAuth ? (
-                <Layout>
-                  <InvoiceForm />
-                </Layout>
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            } 
-          />
-          <Route 
-            path="/invoices/edit/:id" 
-            element={
-              isAuth ? (
-                <Layout>
-                  <InvoiceForm />
-                </Layout>
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            } 
-          />
-          <Route 
-            path="/users" 
-            element={
-              isAuth ? (
-                <Layout>
-                  <UserList />
-                </Layout>
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            } 
-          />
-        </Routes>
+              isAuth ? <Layout /> : <Navigate to="/login" replace />
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="invoices" element={<InvoiceList />} />
+            <Route path="invoices/new" element={<InvoiceForm />} />
+            <Route path="invoices/edit/:id" element={<InvoiceForm />} />
+            <Route path="users" element={<UserList />} />
+          </Route>
+          </Routes>
       </Router>
     </ThemeProvider>
   );
