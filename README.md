@@ -1,218 +1,88 @@
-# IMS Frontend - Invoice Management System
+# 🧾 Invoice Management System
 
-A modern React-based frontend application for managing invoices, built with Material-UI and connected to a Django REST API backend.
+A full-stack Invoice Management System with complete CRUD operations, 
+JWT authentication, and a modern React dashboard — built with Django REST 
+Framework, PostgreSQL, and Node.js.
 
-## Features
+## ✨ Features
+- 🔐 **JWT Authentication** — Secure login with automatic token refresh
+- 📊 **Dashboard** — Overview with invoice statistics & recent activity
+- 🧾 **Invoice CRUD** — Create, read, update, and delete invoices
+- 👥 **User Management** — View and manage system users
+- 📱 **Responsive Design** — Works on desktop, tablet, and mobile
 
-- **User Authentication**: JWT-based authentication with automatic token refresh
-- **Invoice Management**: Create, read, update, and delete invoices
-- **User Management**: View and manage system users
-- **Dashboard**: Overview with statistics and recent invoices
-- **Responsive Design**: Works on desktop, tablet, and mobile devices
-- **Modern UI**: Clean and intuitive interface using Material-UI
+## 🛠 Tech Stack
 
-## Tech Stack
+### Frontend
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![MaterialUI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=mui&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
 
-- **React 18** - Frontend framework
-- **Material-UI (MUI)** - Component library
-- **React Router** - Client-side routing
-- **Axios** - HTTP client for API requests
-- **Dayjs** - Date manipulation and formatting
-- **React Scripts** - Build tooling
+### Backend
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
+![DRF](https://img.shields.io/badge/Django%20REST-ff1709?style=for-the-badge&logo=django&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![NodeJS](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 
-## Prerequisites
+## 📁 Project Structure
+```
+invoice-management-system/
+├── ims-frontend/        # React frontend
+└── invoice-backend/     # Django REST API backend
+```
 
-- Node.js (v16 or higher)
-- npm or yarn package manager
-- Backend API running on `http://localhost:8000`
+## 🚀 Run Locally
 
-## Installation
-
-1. **Navigate to the frontend directory:**
-   ```bash
-   cd ims-frontend
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server:**
-   ```bash
-   npm start
-   ```
-
-The application will open at [http://localhost:3000](http://localhost:3000).
-
-## Backend Configuration
-
-### Django Backend Setup
-
-1. **Ensure your Django backend is running on port 8000**
-
-2. **Install required packages:**
-   ```bash
-   pip install djangorestframework djangorestframework-simplejwt django-cors-headers
-   ```
-
-3. **Update Django settings.py:**
-   ```python
-   INSTALLED_APPS = [
-       ...
-       'rest_framework',
-       'corsheaders',
-       ...
-   ]
-
-   MIDDLEWARE = [
-       'corsheaders.middleware.CorsMiddleware',
-       'django.middleware.common.CommonMiddleware',
-       ...
-   ]
-
-   REST_FRAMEWORK = {
-       'DEFAULT_AUTHENTICATION_CLASSES': [
-           'rest_framework_simplejwt.authentication.JWTAuthentication',
-       ],
-       'DEFAULT_PERMISSION_CLASSES': [
-           'rest_framework.permissions.IsAuthenticated',
-       ],
-   }
-
-   CORS_ALLOWED_ORIGINS = [
-       "http://localhost:3000",
-       "http://127.0.0.1:3000",
-   ]
-
-   CORS_ALLOW_CREDENTIALS = True
-   ```
-
-4. **Configure JWT settings:**
-   ```python
-   from datetime import timedelta
-
-   SIMPLE_JWT = {
-       'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-       'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-       'ROTATE_REFRESH_TOKENS': True,
-       'BLACKLIST_AFTER_ROTATION': True,
-   }
-   ```
-
-5. **Add URLs:**
-   ```python
-   # urls.py
-   from django.urls import path, include
-   from rest_framework_simplejwt.views import (
-       TokenObtainPairView,
-       TokenRefreshView,
-   )
-
-   urlpatterns = [
-       path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-       path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-       path('api/', include('invoices.urls')),
-   ]
-   ```
-
-## API Endpoints
-
-The frontend expects the following API endpoints:
-
-### Authentication
-- `POST /api/token/` - Obtain access and refresh tokens
-- `POST /api/token/refresh/` - Refresh access token
-
-### Invoices
-- `GET /api/invoices/` - List all invoices
-- `GET /api/invoices/:id/` - Get specific invoice
-- `POST /api/invoices/` - Create new invoice
-- `PUT /api/invoices/:id/` - Update invoice
-- `DELETE /api/invoices/:id/` - Delete invoice
-- `GET /api/invoices/stats/` - Get invoice statistics
-
-### Users
-- `GET /api/users/` - List all users
-- `GET /api/users/me/` - Get current user info
-
-## Environment Variables
-
-Create a `.env` file in the root directory (optional):
-
+### Backend
 ```bash
+cd invoice-backend
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+### Frontend
+```bash
+cd ims-frontend
+npm install
+npm start
+```
+
+## 🔑 Environment Variables
+
+### Backend `.env`
+```env
+SECRET_KEY=your_django_secret_key
+DATABASE_URL=your_postgresql_url
+DEBUG=True
+```
+
+### Frontend `.env`
+```env
 REACT_APP_API_URL=http://localhost:8000/api/
 ```
 
-## Project Structure
+## 📡 API Endpoints
 
-```
-ims-frontend/
-├── public/
-│   ├── index.html
-│   └── ...
-├── src/
-│   ├── api/
-│   │   ├── auth.js          # Authentication API
-│   │   ├── axiosInstance.js # Axios configuration
-│   │   ├── invoice.js       # Invoice API
-│   │   └── user.js          # User API
-│   ├── components/
-│   │   ├── Auth/
-│   │   │   └── Login.js     # Login component
-│   │   ├── Dashboard/
-│   │   │   └── Dashboard.js # Dashboard with invoice list
-│   │   ├── Invoices/
-│   │   │   └── InvoiceForm.js # Create/Edit invoice
-│   │   ├── Users/
-│   │   │   └── UserList.js  # User management
-│   │   └── Layout/
-│   │       └── Layout.js    # Main layout with sidebar
-│   ├── App.js              # Main app component
-│   ├── index.js            # Entry point
-│   └── index.css           # Global styles
-├── package.json
-└── README.md
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/token/` | Obtain JWT tokens |
+| POST | `/api/token/refresh/` | Refresh access token |
+| GET | `/api/invoices/` | List all invoices |
+| POST | `/api/invoices/` | Create new invoice |
+| PUT | `/api/invoices/:id/` | Update invoice |
+| DELETE | `/api/invoices/:id/` | Delete invoice |
+| GET | `/api/invoices/stats/` | Invoice statistics |
+
+## 📬 Connect
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/vikasshakalya)
+[![GitHub](https://img.shields.io/badge/GitHub-1a1a1a?style=for-the-badge&logo=github&logoColor=white)](https://github.com/VikasShakalya)
+[![Email](https://img.shields.io/badge/Gmail-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:shakalyavikas6@gmail.com)
 ```
 
-## Available Scripts
+---
 
-- `npm start` - Start development server
-- `npm build` - Build for production
-- `npm test` - Run tests
-- `npm eject` - Eject from Create React App (not recommended)
-
-## Common Issues and Solutions
-
-### CORS Issues
-If you see CORS errors:
-1. Ensure Django CORS is properly configured
-2. Check that the backend URL matches the frontend configuration
-3. Verify both frontend and backend are running
-
-### Authentication Issues
-If login fails:
-1. Check browser console for detailed error messages
-2. Verify backend token endpoints are accessible
-3. Ensure backend has proper user credentials
-
-### Database Connection
-If data doesn't load:
-1. Check backend logs for database errors
-2. Ensure database migrations are applied
-3. Verify backend API endpoints return expected data
-
-## Production Build
-
-1. **Build the application:**
-   ```bash
-   npm run build
-   ```
-
-2. **Serve the build:**
-   ```bash
-   serve -s build
-   ```
-
-3. **Configure production backend URL:**
-   Update `src/api/axiosInstance.js` baseURL to your production backend URL.
+Commit with message:
+```
+docs: add optimized README with tech stack and API reference
